@@ -4,7 +4,6 @@ import { LEVELS } from "../../models/levels.enum";
 import { TaskComponent } from "../pure/TaskComponent";
 import "../../styles/Task.scss";
 import { TaskForm } from "../pure/forms/TaskForm";
-import { TaskFomik } from "../pure/forms/TaskFomik";
 import { Spinner } from "../pure/Spinner";
 
 export const TaskList = () => {
@@ -39,11 +38,12 @@ export const TaskList = () => {
 
   useEffect(() => {
     console.log("Task state has been modified");
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setLoading(false);
     }, 3000);
     return () => {
       console.log("TaskList component is going to unmount...");
+      clearTimeout(timer);
     };
   }, [tasks]);
 
@@ -100,7 +100,7 @@ export const TaskList = () => {
     <div className="col-12 my-4">
       <div className="card">
         <div className="card-header p-3">
-          <h1>Tus Tareas</h1>
+          <h1 className="fw-bold title">Tus Tareas</h1>
         </div>
         <div
           className="card-body"
@@ -113,7 +113,7 @@ export const TaskList = () => {
           >
             {loading ? <Spinner /> : taskTable()}
           </div>
-          <TaskFomik add={addTask} />
+          <TaskForm add={addTask} />
         </div>
       </div>
     </div>

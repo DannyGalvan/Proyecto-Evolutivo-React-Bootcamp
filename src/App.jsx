@@ -1,16 +1,14 @@
 import { register } from "swiper/element/bundle";
-import "./App.css";
-import { TaskList } from "./components/containers/TaskList";
-
+import { ControlRouter } from "./routes/ControlRouter";
+import { AuthProvider } from "./hooks/ContextLogin";
 
 function App() {
-
   register();
-  
+
   return (
-    <div className="container-fluid my-5">   
-      <TaskList/>
-    </div>
+    <AuthProvider>
+      <ControlRouter />
+    </AuthProvider>
   );
 }
 

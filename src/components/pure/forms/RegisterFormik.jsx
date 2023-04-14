@@ -22,11 +22,8 @@ const registerSchema = Yup.object().shape({
     .min(8, "la contraseña debe tener minimo 8 caracteres"),
   confirm: Yup.string()
     .when("password", {
-        is: true,
-        then: Yup.string().oneOf(
-            [Yup.ref("password")],
-            "no coinciden"
-        )
+      is: true,
+      then: Yup.string().oneOf([Yup.ref("password")], "no coinciden"),
     })
     .required("debes confirmar tu contraseña"),
   email: Yup.string()
@@ -43,8 +40,7 @@ export const RegisterFormik = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <h4>Formik</h4>
+    <div className="container p-5">
       <Formik
         initialValues={initialValues}
         onSubmit={submit}
@@ -91,7 +87,9 @@ export const RegisterFormik = () => {
             </span>
           </div>
 
-          <button type="submit">Submit</button>
+          <div className="d-flex justify-content-center">
+            <button type="submit">Registrarse</button>
+          </div>
         </Form>
       </Formik>
     </div>

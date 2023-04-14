@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "../../styles/Task.scss";
 import { LEVELS } from "../../models/levels.enum";
+import { Link } from "react-router-dom";
 
 export const TaskComponent = ({ task, completed, deleted }) => {
   useEffect(() => {
@@ -23,20 +24,33 @@ export const TaskComponent = ({ task, completed, deleted }) => {
 
   const taskIconComplete = () => {
     return task.completed ? (
-      <span className="text-success h4 task-action" onClick={()=>completed(task)}>
+      <span
+        className="text-success h4 task-action"
+        onClick={() => completed(task)}
+      >
         <i className="bi bi-check-circle-fill text-success"></i>
       </span>
     ) : (
-      <span className="text-danger h4 task-action" onClick={()=>completed(task)}>
+      <span
+        className="text-danger h4 task-action"
+        onClick={() => completed(task)}
+      >
         <i className="bi bi-x-circle-fill"></i>
       </span>
     );
   };
 
   return (
-    <tr className="fw-normal" style={task.completed ? {textDecoration: 'line-through'} : {color: 'red'}}>
+    <tr
+      className="fw-normal"
+      style={
+        task.completed ? { textDecoration: "line-through" } : { color: "red" }
+      }
+    >
       <th>
-        <span className="ms-2">{task.name}</span>
+        <Link className="ms-2 task-action" to={task.name}>
+          {task.name}
+        </Link>
       </th>
       <td className="align-middle">
         <span>{task.description}</span>
@@ -47,7 +61,10 @@ export const TaskComponent = ({ task, completed, deleted }) => {
       <td className="align-middle ">
         <span className="d-flex justify-content-around">
           {taskIconComplete()}
-          <span className="fw-bold text-danger h4 task-action" onClick={()=>deleted(task)}>
+          <span
+            className="fw-bold text-danger h4 task-action"
+            onClick={() => deleted(task)}
+          >
             <i className="bi bi-trash"></i>
           </span>
         </span>
