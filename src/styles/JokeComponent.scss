@@ -1,0 +1,41 @@
+.pointer {
+  cursor: pointer;
+}
+
+.icon-like {
+  color: black;
+  &:hover {
+    color: red;
+  }
+}
+
+.icon-no-like {
+  color: black;
+  &:hover {
+    color: yellow;
+  }
+}
+
+.text-like {
+  font-weight: bold;
+  color: white;
+  &:hover {
+    color: red;
+  }
+  @media (max-width: 850px) {
+    // Estilos para pantallas más pequeñas
+    color: black;
+  }
+}
+
+.text-no-like {
+  font-weight: bold;
+  color: white;
+  &:hover {
+    color: yellow;
+  }
+  @media (max-width: 850px) {
+    // Estilos para pantallas más pequeñas
+    color: black;
+  }
+}

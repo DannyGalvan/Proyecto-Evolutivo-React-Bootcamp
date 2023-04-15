@@ -63,7 +63,7 @@ export const Menu = () => {
               Perfil
             </Link>
             <NavDropdown.Item href="#" onClick={close}>
-              <i className="bi bi-x-octagon-fill text-danger"></i> Cerrar Sesion
+              <i className="bi bi-x-octagon-fill text-danger"></i> Cerrar Sesión
             </NavDropdown.Item>
           </NavDropdown>
         </Nav>

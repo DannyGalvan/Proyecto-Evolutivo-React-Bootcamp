@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import { Spinner } from "./Spinner";
+import '../../styles/Carrousel.scss'
 
 export const Carrousel = () => {
   const [photos, setPhotos] = useState([]);
@@ -9,7 +10,7 @@ export const Carrousel = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get("/api/photos");
+      const response = await axios.get("/placeholder/photos");
       const data = response.data.slice(0, 20);
       setPhotos(data);
       setLoading(false);
