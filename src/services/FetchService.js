@@ -1,11 +1,11 @@
-import axios from "axios";
+import { randomuser, reqrest } from "../axios/config";
 
 export const getAllUsers = async (pages) => {
-  const response = await axios.get(`api/users?page=${pages}`);
-  return response.data;
+  const response = await reqrest.get(`/users?page=${pages}`);
+  return response;
 };
 
-export const getUserById = async (Id) => {
-    const response = await axios.get(`api/users/${Id}`);
+export const getUserById = async () => {
+    const response = await randomuser.get(`/api`);
     return response.data;
 }

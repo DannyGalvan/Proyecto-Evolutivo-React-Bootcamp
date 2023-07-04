@@ -5,13 +5,13 @@ import { Pages } from "./Pages";
 export const UsersList = () => {
   const [singleUser, setSingleUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [pages, setPages] = useState(0);
+  const [pages, setPages] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [userPerPage, setUserPerPage] = useState(0);
 
   useEffect(() => {
-    obtainsUsers(1);
+    obtainsUsers(pages);
   }, []);
 
   const obtainsUsers = async (page) => {
@@ -28,11 +28,12 @@ export const UsersList = () => {
     }
   };
 
-  const obtainSingleUser = async (Id) => {
+  const obtainSingleUser = async () => {
     let response;
     try {
-      response = await getUserById(Id);
-      setSingleUser(response.data);
+      response = await getUserById();
+      const user = response.results.shift();
+      setSingleUser(user);
     } catch (error) {
       console.log(error);
     }
@@ -42,11 +43,7 @@ export const UsersList = () => {
     <div>
       <h3>usuarios: </h3>
       {users.map((u) => (
-        <p
-          key={u.id}
-          onClick={() => obtainSingleUser(u.id)}
-          style={{ cursor: "pointer" }}
-        >
+        <p key={u.id} style={{ cursor: "pointer" }}>
           {JSON.stringify(u, null, 3)}
         </p>
       ))}
@@ -63,6 +60,7 @@ export const UsersList = () => {
         />
       </div>
       <div className="row justify-content-center">
+        <h1 className="text-center fw-bold">Genera usuarios Aleatorios</h1>
         {singleUser && (
           <div
             className="card text-dark text-center"
@@ -70,15 +68,25 @@ export const UsersList = () => {
           >
             <h3 className="card-header">Usuario Seleccionado: </h3>
             <div className="card-body">
-              <p>Id: {singleUser.id}</p>
+              <p>
+                Id: {singleUser.id.name} {singleUser.id.value}
+              </p>
 
-              <p>Name: {singleUser.first_name}</p>
-              <p>Last Name: {singleUser.last_name}</p>
+              <p>
+                Name: {singleUser.name.title} {singleUser.name.first}{" "}
+              </p>
+              <p>Last Name: {singleUser.name.last}</p>
               <p>Email: {singleUser.email}</p>
-              <img src={singleUser.avatar} alt={singleUser.avatar} />
+              <img
+                src={singleUser.picture.thumbnail}
+                alt={singleUser.picture.thumbnail}
+              />
             </div>
           </div>
         )}
+        <div className="d-flex justify-content-center my-3">
+          <button onClick={obtainSingleUser}>Generar usuario aleatorio</button>
+        </div>
       </div>
     </div>
   );

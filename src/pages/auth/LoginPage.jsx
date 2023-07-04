@@ -1,7 +1,6 @@
 import React from "react";
 import { LoginFormik } from "../../components/pure/forms/LoginFormik";
 import { Link } from "react-router-dom";
-import { ObservableExample } from "../../components/observable/ObservableExample";
 
 const LoginPage = () => {
   

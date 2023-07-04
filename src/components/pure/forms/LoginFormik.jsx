@@ -1,8 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { AuthContext } from "../../../hooks/ContextLogin";
+import { login } from "../../../services/CrudService";
+import { reqrest } from "../../../axios/config";
+import { Spinner } from "../Spinner";
 
 const initialValues = {
   email: "",
@@ -20,7 +23,7 @@ const loginSchema = Yup.object().shape({
 
 export const LoginFormik = () => {
   const navigate = useNavigate();
-  const { signIn } = useContext(AuthContext);
+  const { signIn, loading, errorAuth, state } = useContext(AuthContext);
 
   return (
     <div>
@@ -28,16 +31,21 @@ export const LoginFormik = () => {
         initialValues={initialValues}
         validationSchema={loginSchema}
         onSubmit={async (values) => {
+          loading();
           await new Promise((r) => setTimeout(r, 500));
-          signIn(values);
-          const page = navigation.currentEntry.index;
-          //page != 0 ? -1 : '/'
-          navigate("/?online=true", {
-            replace: false,
-            state: {
-              online: true,
-            },
-          });
+          const response = await login(values.email, values.password);
+          if (response.token) {
+            reqrest.defaults.auth = response.token;
+            const temp = {
+              ...values,
+              token: response.token,
+            };
+            signIn(values);
+            const page = window.navigation.currentEntry.index;
+            navigate(page != 0 ? -1 : "/");
+          } else {
+            errorAuth(response.error);
+          }
         }}
       >
         <Form className="container">
@@ -60,6 +68,14 @@ export const LoginFormik = () => {
               <ErrorMessage name="password" />
             </span>
           </div>
+
+          <span className="text-danger">
+            {state.error != "" && state.error}
+          </span>
+          
+          {
+            state.isLoading && <Spinner />
+          }
 
           <div className="d-flex justify-content-center">
             <button type="submit">Iniciar Sesion</button>

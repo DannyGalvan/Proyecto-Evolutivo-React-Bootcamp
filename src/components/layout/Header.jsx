@@ -8,7 +8,7 @@ import { Menu } from "../pure/menu/Menu";
 import { AuthContext } from "../../hooks/ContextLogin";
 
 export const Header = () => {
-  const { authState } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
 
   return (
     <Navbar key="sm" bg="dark" expand="sm" variant="dark" className="mb-3">
@@ -17,7 +17,7 @@ export const Header = () => {
           Task
         </Link>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-sm`} />
-        {authState.email != "" &&  <Menu />}
+        {state.email != "" &&  <Menu />}
       </Container>
     </Navbar>
   );

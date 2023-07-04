@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 export const Pages = ({ totalPages, active, action, showPages }) => {
   const [view, setView] = useState([]);
 
   useEffect(() => {
     dinamycPages();
-  }, [active]);
+  }, [active,totalPages]);
 
   const dinamycPages = () => {
     if (totalPages < showPages) {
