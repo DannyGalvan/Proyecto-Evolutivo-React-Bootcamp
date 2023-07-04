@@ -1,38 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Task } from "../../models/task.class";
-import { LEVELS } from "../../models/levels.enum";
+import React, { useContext, useEffect, useState } from "react";
 import { TaskComponent } from "../pure/TaskComponent";
 import "../../styles/Task.scss";
 import { TaskForm } from "../pure/forms/TaskForm";
 import { Spinner } from "../pure/Spinner";
+import { TaskContext } from "../../hooks/TaskContext";
+import { Filters } from "../pure/Filters";
 
 export const TaskList = () => {
-  const defaultTask1 = new Task(
-    "Ejemplo1",
-    "Descripcion por defecto 1",
-    false,
-    LEVELS.NORMAL
-  );
-
-  const defaultTask2 = new Task(
-    "Ejemplo2",
-    "Descripcion por defecto 2",
-    false,
-    LEVELS.BLOCKING
-  );
-
-  const defaultTask3 = new Task(
-    "Ejemplo3",
-    "Descripcion por defecto 3",
-    false,
-    LEVELS.URGENT
-  );
-
-  const [tasks, setTasks] = useState([
-    defaultTask1,
-    defaultTask2,
-    defaultTask3,
-  ]);
+  const { state, addTask, completedTask, removeTask, filter } =
+    useContext(TaskContext);
 
   const [loading, setLoading] = useState(true);
 
@@ -40,35 +16,15 @@ export const TaskList = () => {
     console.log("Task state has been modified");
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1000);
     return () => {
       console.log("TaskList component is going to unmount...");
       clearTimeout(timer);
     };
-  }, [tasks]);
-
-  const completedTask = (task) => {
-    const tempTask = [...tasks];
-    const indx = tempTask.indexOf(task);
-    tempTask[indx].completed = !tempTask[indx].completed;
-    setTasks(tempTask);
-  };
-
-  const deleteTask = (task) => {
-    const tempTask = [...tasks];
-    const indx = tempTask.indexOf(task);
-    tempTask.splice(indx, 1);
-    setTasks(tempTask);
-  };
-
-  const addTask = (task) => {
-    const tempTask = [...tasks];
-    tempTask.push(task);
-    setTasks(tempTask);
-  };
+  }, [state]);
 
   const taskTable = () => {
-    return tasks.length != 0 ? (
+    return filter.length != 0 ? (
       <table className="table table-dark table-hover">
         <thead>
           <tr>
@@ -79,12 +35,12 @@ export const TaskList = () => {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task, index) => (
+          {filter.map((task, index) => (
             <TaskComponent
               key={index}
               task={task}
               completed={completedTask}
-              deleted={deleteTask}
+              deleted={removeTask}
             />
           ))}
         </tbody>
@@ -112,6 +68,9 @@ export const TaskList = () => {
             style={{ height: "300px" }}
           >
             {loading ? <Spinner /> : taskTable()}
+          </div>
+          <div className="d-flex justify-content-center">
+            <Filters />
           </div>
           <TaskForm add={addTask} />
         </div>

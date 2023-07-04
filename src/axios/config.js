@@ -27,7 +27,7 @@ reqrest.interceptors.response.use(
 )
 
 export const  placeholder = axios.create({
-    baseURL: "http://jsonplaceholder.typicode.com'",
+    baseURL: "http://jsonplaceholder.typicode.com",
     timeout: 1000,
 })
 

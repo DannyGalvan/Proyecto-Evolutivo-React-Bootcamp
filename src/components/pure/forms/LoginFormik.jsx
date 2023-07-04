@@ -40,7 +40,7 @@ export const LoginFormik = () => {
               ...values,
               token: response.token,
             };
-            signIn(values);
+            signIn(temp);
             const page = window.navigation.currentEntry.index;
             navigate(page != 0 ? -1 : "/");
           } else {
@@ -72,10 +72,8 @@ export const LoginFormik = () => {
           <span className="text-danger">
             {state.error != "" && state.error}
           </span>
-          
-          {
-            state.isLoading && <Spinner />
-          }
+
+          {state.isLoading && <Spinner />}
 
           <div className="d-flex justify-content-center">
             <button type="submit">Iniciar Sesion</button>

@@ -7,15 +7,19 @@ export const ERROR = "ERROR";
 export const LOGOUT = "LOGOUT";
 
 export const AuthReducer = (state, action) => {
+  let temp;
+
   switch (action.type) {
     case LOGIN:
-      return {
+      temp = {
         ...state,
         isLoading: true,
         error: '',
       };
+      localStorage.setItem("credentials", JSON.stringify(temp));
+      return temp;
     case SUCCESS:
-      return {
+      temp =  {
         ...state,
         isLoading: false,
         isLoggedIn: true,
@@ -23,16 +27,22 @@ export const AuthReducer = (state, action) => {
         email: action.payload.email,
         error: '',
       };
+      localStorage.setItem("credentials", JSON.stringify(temp));
+      return temp;
     case ERROR:
-      return {
+      temp = {
         ...state,
         isLoading: false,
         isLoggedIn: false,
         error: action.payload,
       };
+      localStorage.setItem("credentials", JSON.stringify(temp));
+      return temp;
     case LOGOUT:
+      localStorage.setItem("credentials", JSON.stringify(InitialState));
       return InitialState;
     default:
+      localStorage.setItem("credentials", JSON.stringify(InitialState));
       return InitialState;
   }
 };

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
+import { AuthContext } from "../../hooks/ContextLogin";
 
 const Protected = ({ children }) => {
-  const isLoggedIn = localStorage.getItem("credentials");
+  const { state } = useContext(AuthContext);
 
-  if (!isLoggedIn) {
+  if (!state.isLoggedIn) {
     return <Navigate to={`/login`} />;
   }
 

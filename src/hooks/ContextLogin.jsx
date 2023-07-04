@@ -21,7 +21,7 @@ export const AuthContextProps = {
 export const AuthContext = createContext(AuthContextProps);
 
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AuthReducer, InitialState);
+  const [state, dispatch] = useReducer(AuthReducer, JSON.parse(localStorage.getItem('credentials')) ?? InitialState);
 
   const loading = () => {
     dispatch({
@@ -34,8 +34,6 @@ export const AuthProvider = ({ children }) => {
       token: login.token,
       email: login.email,
     };
-
-    localStorage.setItem("credentials", JSON.stringify(data, null, 2));
 
     dispatch({
       type: SUCCESS,
